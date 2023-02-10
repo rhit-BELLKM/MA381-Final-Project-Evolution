@@ -1,10 +1,12 @@
 import random
 
 class Organism:
-    def __init__(self, fitness=0.0, mutations=0.0, mutation_rate=0.1):
+    def __init__(self, fitness=0.0, mutations=0.0, mutation_rate=0.1, gui=None):
         self.fitness = fitness
         self.mutations = mutations
         self.mutation_rate = mutation_rate
+        self.fitness_history = []
+        self.gui = gui
 
     def reproduce(self, partner=None, times=1, mutation_rate=None):
         if mutation_rate is None:
@@ -14,11 +16,13 @@ class Organism:
                 # Haploid Reproduction
                 offspring_fitness = self.fitness
             else:
-                # Diploid Reproduction
+                # Diploid Reproduction - Not implemented
                 offspring_fitness = (self.fitness + partner.fitness) / 2
 
             offspring = Organism(fitness=offspring_fitness, mutations=0.0, mutation_rate=mutation_rate)
             offspring.mutate(mutation_rate=mutation_rate)
+            if self.gui:
+                self.gui.update_graph()
         return offspring
 
 
